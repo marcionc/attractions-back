@@ -15,7 +15,7 @@ from datetime import timedelta
 from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+# BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -27,7 +27,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -101,11 +101,16 @@ WSGI_APPLICATION = 'tourist-spots.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 from dj_database_url import parse as dburl
-default_dburl = 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')
-DATABASES = {
-    'default': {'default': config('DATABASE_URL', default=default_dburl, cast=dburl), }
-}
+# Diretório base
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# URL do banco de dados padrão (SQLite)
+default_dburl = 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')
+
+# Configuração do banco de dados
+DATABASES = {
+    'default': config('DATABASE_URL', default=default_dburl, cast=dburl)
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -141,11 +146,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
-
 MEDIA_ROOT = 'images'
 
 MEDIA_URL = '/media/'
+
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 

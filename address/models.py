@@ -1,8 +1,8 @@
 from core.models import BaseModelMixin
-from recyclebin.models import RecycleBinModelMixin
+# from recyclebin.models import RecycleBinModelMixin
 from django.db import models
 
-class Address(BaseModelMixin, RecycleBinModelMixin):
+class Address(BaseModelMixin):
     address_street = models.CharField('Rua', max_length=150)
     address_number = models.CharField('Número', max_length=50)
     address_city = models.CharField('Cidade', max_length=150)
@@ -14,6 +14,13 @@ class Address(BaseModelMixin, RecycleBinModelMixin):
 
     def __str__(self):
         return f"{self.id}"
+
+    # def delete(self, using=None, keep_parents=False):
+    #     # Verifique se o usuário foi atribuído antes da exclusão
+    #     if not hasattr(self, '_delete_user'):
+    #         # Isso pode ser útil para testes ou exclusões feitas diretamente no código
+    #         self._delete_user = None  # Ou defina um valor padrão, se aplicável
+    #     super().delete(using=using, keep_parents=keep_parents)
 
     class Meta:
         verbose_name = 'Endereço'
